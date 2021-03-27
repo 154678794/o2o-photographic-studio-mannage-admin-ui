@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Access-Control-Allow-Origin" content="*">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="../dist/css/layui.css"  media="all">
+  <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+  
+  <div class="demoTable">
+    搜索名称：
+    <div class="layui-inline">
+      <input class="layui-input" name="packName" id="packName" autocomplete="off">
+    </div>
+    拍摄风格：
+    <div class="layui-inline">
+      <input class="layui-input" name="shootingStyle" id="shootingStyle" autocomplete="off">
+    </div>
+    <button class="layui-btn" data-type="reload">搜索</button>
+    <div class="site-demo-button" id="layerDemo" style="margin-bottom: 0;float: right;margin-right: 50px;">
+      <button data-method="offset" data-type="auto" class="layui-btn layui-btn-normal">新增</button>
+    </div>
+  </div>
+
+<table class="layui-hide" id="test" lay-filter="test"></table>
+
+ 
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="edit">保存</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+              
+          
+<script src="../dist/layui.js" charset="utf-8"></script>
+
+<script>
+  layui.use('layer', function(){ //独立版的layer无需执行这一句
+    var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+    
+    //触发事件
+    var active = {
+       offset: function(othis){
+        var type = othis.data('type')
+        ,text = othis.text();
+        layer.open({
+          type: 1
+          ,area: ['60%', '850px']
+          ,offset: type 
+          ,id: 'layerDemo'+type //防止重复弹出
+          ,content: '<div style="padding: 20px 100px;"><iframe src="addTable.html" width="100%" height="700px" frameborder="0"></iframe></div>'
+          ,btnAlign: 'c' //按钮居中
+          ,shade: 0 //不显示遮罩
+          ,yes: function(){
+            layer.closeAll();
+          }
+        });
+      }
+    };
+    
+    $('#layerDemo .layui-btn').on('click', function(){
+      var othis = $(this), method = othis.data('method');
+      active[method] ? active[method].call(this, othis) : '';
+    });
+    
+  });
+  </script>
+<script>
+var url = 'http://localhost:8000/sysin';
+layui.use('table', function(){
+  var table = layui.table;
+  
+  table.render({
+    elem: '#test'
+    ,url: url+'/shootingPackageAdmin/queryAllPacket'
+    // ,contentType: 'application/json'
+    ,method: 'get'
+    ,id: 'testReload'
+    ,parseData: function(res){ //res 即为原始返回的数据
+    return {
+      "code": res.code, //解析接口状态
+      "msg": res.msg, //解析提示文本
+      "count": res.data.total, //解析数据长度
+      "data": res.data.list //解析数据列表
+    };
+  }
+	    // 用于对分页请求的参数：page、limit重新设定名称
+    ,request: {
+			  pageName: 'pageNum' //页码的参数名称，默认：page
+			   ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+			 }
+
+    ,title: '用户数据表'
+    ,cols: [[
+      {type: 'checkbox', fixed: 'left'}
+      ,{field:'packId', title:'编号', width:80, fixed: 'left', unresize: true, sort: true}
+      ,{field:'packName', title:'名称', width:90, edit: 'text'}
+      ,{field:'shootingStyle', title:'拍摄风格', width:90, edit: 'text'}
+      ,{field:'packPrice', title:'价格/元', width:90, edit: 'text', sort: true}
+      ,{field:'clothingSets', title:'服装套数', width:90, edit: 'text'}
+      ,{field:'shotNum', title:'拍摄张数', width:90, edit: 'text'}
+      ,{field:'refinedNum', title:'底片张数', width:90, edit: 'text'}
+      ,{field:'highlights', title:'亮点', width:80, edit: 'text'}
+      ,{field:'photographersNum', title:'拍摄人数', width:90, edit: 'text'}
+      ,{field:'modelingClothing', title:'造型服装', width:90, edit: 'text'}
+      ,{field:'makeUp', title:'造型化妆', width:90, edit: 'text'}
+      ,{field:'interiorNum', title:'内景数量', width:90, edit: 'text'}
+      ,{field:'locationNum', title:'外景数量', width:90, edit: 'text'}
+      ,{field:'albumNum', title:'相册数量', width:90, edit: 'text'}
+      ,{field:'frameNum', title:'相框数量', width:90, edit: 'text'}
+      ,{field:'albumDescription', title:'相册说明', width:90, edit: 'text'}
+      ,{field:'frameDescription', title:'相框说明', width:90, edit: 'text'}
+      ,{field:'otherProducts', title:'其他产品', width:90, edit: 'text'}
+      ,{field:'otherExpenses', title:'其他费用', width:90, edit: 'text'}
+      ,{field:'pickMethod', title:'取件方式', width:90, edit: 'text'}
+      ,{field:'pickInstructions', title:'取件说明', width:90, edit: 'text'}
+      ,{field:'referencePicture', title:'参考图片地址', width:120, edit: 'text'}
+      ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+    ]]
+    ,page: true
+  });
+
+  //监听行工具事件
+  table.on('tool(test)', function(obj){
+    var data = obj.data;
+    //console.log(obj)
+    if(obj.event === 'del'){
+      layer.confirm('真的删除行么', function(index){
+        obj.del();
+        $.ajax({
+          type: "get",
+          url: url+"/shootingPackageAdmin/deleteShootingPack",
+          data:{packId : data.packId},
+          dataType:"json",
+        success: function(){
+          layer.close(index);
+        }
+      })
+      });
+    } else if(obj.event === 'edit'){
+      layer.confirm('保存成功', function(index){
+      $.ajax({
+          type: "post",
+          url: url+"/shootingPackageAdmin/updateShootingPack",
+          data:JSON.stringify(data),
+          contentType: "application/json;charset=utf-8",
+          dataType:"json",
+        success: function(){
+          layer.close(index);
+        }
+      });
+    });
+    }
+  });
+
+  var $ = layui.$, active = {
+    reload: function(){
+      var packName = $('#packName').val();
+      var shootingStyle = $('#shootingStyle').val();
+      table.reload('testReload', {
+        url: url+'/shootingPackageAdmin/queryByLike'
+        // ,methods:"post"
+        ,request: {
+        pageName: 'pageNum' //页码的参数名称，默认：page
+        ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+        }
+        ,where: {
+          shootingStyle:shootingStyle,
+          packName:packName 
+        }
+        ,page: {
+        curr: 1
+        }
+      });
+    }
+  };
+  
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+});
+</script>
+</body>
+</html>

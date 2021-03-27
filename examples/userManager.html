@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Access-Control-Allow-Origin" content="*">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="../dist/css/layui.css"  media="all">
+  <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+  
+  <div class="demoTable">
+    用户名：
+    <div class="layui-inline">
+      <input class="layui-input" name="username" id="username" autocomplete="off">
+    </div>
+    真实姓名：
+    <div class="layui-inline">
+      <input class="layui-input" name="realName" id="realName" autocomplete="off">
+    </div>
+    手机号：
+    <div class="layui-inline">
+      <input class="layui-input" name="phoneNum" id="phoneNum" autocomplete="off">
+    </div>
+    <button class="layui-btn" data-type="reload">搜索</button>
+  </div>
+
+<table class="layui-hide" id="test" lay-filter="test"></table>
+
+ 
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="edit">保存</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+              
+          
+<script src="../dist/layui.js" charset="utf-8"></script>
+
+<script>
+var url = 'http://localhost:8000/sysin';
+layui.use('table', function(){
+  var table = layui.table;
+  
+  table.render({
+    elem: '#test'
+    ,url: url+'/userManager/queryAllUser'
+    ,contentType: 'application/json'
+    ,method: 'post'
+    ,id: 'testReload'
+    ,parseData: function(res){ //res 即为原始返回的数据
+    return {
+      "code": res.code, //解析接口状态
+      "msg": res.msg, //解析提示文本
+      "count": res.data.total, //解析数据长度
+      "data": res.data.list //解析数据列表
+    };
+  }
+	    // 用于对分页请求的参数：page、limit重新设定名称
+    ,request: {
+			  pageName: 'pageNum' //页码的参数名称，默认：page
+			   ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+			 }
+
+    ,title: '用户数据表'
+    ,cols: [[
+      {type: 'checkbox', fixed: 'left'}
+      ,{field:'userId', title:'用户编号', width:110, fixed: 'left', unresize: true, sort: true}
+      ,{field:'username', title:'用户昵称', width:90, edit: 'text'}
+      ,{field:'realName', title:'真实姓名', width:90, edit: 'text'}
+      ,{field:'password', title:'密码', width:90, edit: 'text', sort: true}
+      ,{field:'phoneNum', title:'电话号码', width:90, edit: 'text'}
+      ,{field:'registTime', title:'注册时间', width:90, edit: 'text'}
+      ,{field:'loginTime', title:'登录时间', width:90, edit: 'text'}
+      ,{field:'sex', title:'性别', width:80, edit: 'text'}
+      ,{field:'birth', title:'出生日期', width:90, edit: 'text'}
+      ,{field:'money', title:'余额', width:90, edit: 'text'}
+      ,{field:'rights', title:'权限', width:90, edit: 'text'}
+      ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+    ]]
+    ,page: true
+  });
+
+  //监听行工具事件
+  table.on('tool(test)', function(obj){
+    var data = obj.data;
+    //console.log(obj)
+    if(obj.event === 'del'){
+      layer.confirm('真的删除行么', function(index){
+        obj.del();
+        $.ajax({
+          type: "get",
+          url: url+"/userManager/deleteUser",
+          data:{userId : data.userId},
+          dataType:"json",
+        success: function(){
+          layer.close(index);
+        }
+      })
+      });
+    } else if(obj.event === 'edit'){
+      layer.confirm('保存成功', function(index){
+      $.ajax({
+          type: "post",
+          url: url+"/userManager/updateUser",
+          data:JSON.stringify(data),
+          contentType: "application/json;charset=utf-8",
+          dataType:"json",
+        success: function(){
+          layer.close(index);
+        }
+      });
+    });
+    }
+  });
+
+  var $ = layui.$, active = {
+    reload: function(){
+      var username = $('#username').val();
+      var realName = $('#realName').val();
+      var phoneNum = $('#phoneNum').val();
+      table.reload('testReload', {
+        url: url+'/userManager/queryAllUser'
+        // ,methods:"post"
+        ,request: {
+        pageName: 'pageNum' //页码的参数名称，默认：page
+        ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+        }
+        ,where: {
+            username:username,
+            realName:realName,
+            phoneNum:phoneNum
+        }
+        ,page: {
+        curr: 1
+        }
+      });
+    }
+  };
+  
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+});
+</script>
+</body>
+</html>

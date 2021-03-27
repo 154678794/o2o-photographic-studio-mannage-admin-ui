@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="../dist/css/layui.css"  media="all">
+  <script src="../dist/layui.js" charset="utf-8"></script>
+  <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body> 
+
+  <form class="layui-form" action="">
+    <table>
+      <tr>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">套餐名称</label>
+            <div class="layui-input-block">
+              <input type="text" name="packName" lay-verify="required" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">套餐价格</label>
+            <div class="layui-input-block">
+              <input type="text" name="packPrice" required lay-verify="number" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">参考图片</label>
+            <div class="layui-input-block">
+              <input type="text" name="referencePicture" lay-verify="url" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">服装套数</label>
+            <div class="layui-input-block">
+              <input type="text" name="clothingSets" required lay-verify="number" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">拍摄张数</label>
+            <div class="layui-input-block">
+              <input type="text" name="shotNum" required lay-verify="number" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">精修张数</label>
+            <div class="layui-input-block">
+              <input type="text" name="refinedNum" lay-verify="number" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">底片张数</label>
+            <div class="layui-input-block">
+              <input type="text" name="negativeNum" lay-verify="number" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">亮点</label>
+            <div class="layui-input-block">
+              <input type="text" name="highlights" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">拍摄人数</label>
+            <div class="layui-input-block">
+              <input type="text" name="photographersNum" lay-verify="number" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">拍摄风格</label>
+            <div class="layui-input-block">
+              <input type="text" name="shootingStyle" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">造型服装(套/人)</label>
+            <div class="layui-input-block">
+              <input type="text" name="modelingClothing" lay-verify="number" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">造型化妆 (套/人)</label>
+            <div class="layui-input-block">
+              <input type="text" name="makeUp" lay-verify="number" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">内景数量</label>
+            <div class="layui-input-block">
+              <input type="text" name="interiorNum" lay-verify="number" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">外景数量</label>
+            <div class="layui-input-block">
+              <input type="text" name="locationNum" lay-verify="number" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">相册数量</label>
+            <div class="layui-input-block">
+              <input type="text" name="albumNum" lay-verify="number" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">相框数量</label>
+            <div class="layui-input-block">
+              <input type="text" name="frameNum" lay-verify="number" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">相册说明</label>
+            <div class="layui-input-block">
+              <input type="text" name="albumDescription" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">相框说明</label>
+            <div class="layui-input-block">
+              <input type="text" name="frameDescription" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">其他产品</label>
+            <div class="layui-input-block">
+              <input type="text" name="otherProducts" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">其他费用</label>
+            <div class="layui-input-block">
+              <input type="text" name="otherExpenses" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">取件方式</label>
+            <div class="layui-input-block">
+              <input type="text" name="pickMethod" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">取件说明</label>
+            <div class="layui-input-block">
+              <input type="text" name="pickInstructions" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="layui-form-item">
+            <div class="layui-input-block">
+              <button class="layui-btn" lay-submit="" lay-filter="formDemo">立即提交</button>
+              <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+          </div>
+        </td>
+        <td></td>
+      </tr>
+    </table>
+   
+  
+</form>
+
+  <script>
+    var url = 'http://localhost:8000/sysin';
+    layui.use('form', function(){
+      var form = layui.form;
+      
+      //监听提交
+      form.on('submit(formDemo)', function(data,index){
+        $.ajax({
+          type: "post",
+          url: url+"/shootingPackageAdmin/insertShootingPack",
+          data:JSON.stringify(data.field),
+          contentType: "application/json;charset=utf-8",
+          dataType:"json",
+          success: function(){
+            layer.close(index);
+          }
+        })
+       
+      });
+    });
+    </script>
+</body>
+</html>
