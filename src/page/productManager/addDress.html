@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="/dist/css/layui.css"  media="all">
+  <script src="/dist/layui.js" charset="utf-8"></script>
+  <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body> 
+
+  <form class="layui-form" action="">
+    <table>
+      <tr>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">图片地址</label>
+            <div class="layui-input-block">
+              <input type="text" name="dressUrl" lay-verify="url" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">服装名称</label>
+            <div class="layui-input-block">
+              <input type="text" name="dressName" lay-verify="required" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="layui-form-item">
+            <label class="layui-form-label">服装价格</label>
+            <div class="layui-input-block">
+              <input type="text" name="price" lay-verify="number" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </td>
+        <td>
+            <div class="layui-form-item">
+              <label class="layui-form-label">剩余总量</label>
+              <div class="layui-input-block">
+                <input type="text" name="totalNum" lay-verify="number" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+          </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="layui-form-item">
+            <div class="layui-input-block">
+              <button class="layui-btn" lay-submit="" lay-filter="formDemo">立即提交</button>
+              <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+          </div>
+        </td>
+        <td></td>
+      </tr>
+    </table>
+</form>
+
+  <script>
+    var url = 'http://localhost:8000/sysin';
+    layui.use('form', function(){
+      var form = layui.form;
+      
+      //监听提交
+      form.on('submit(formDemo)', function(data,index){
+        var dataVo = {}
+        dataVo['dressEntity'] = data.field
+        dataVo.type = 2
+        console.log(dataVo)
+        $.ajax({
+          type: "post",
+          url: url+"/purchaseAndDelivery/insertByType",
+          data:JSON.stringify(dataVo),
+          contentType: "application/json;charset=utf-8",
+          dataType:"json",
+          success: function(){
+            layer.close(index);
+          }
+        })
+       
+      });
+    });
+    </script>
+</body>
+</html>
