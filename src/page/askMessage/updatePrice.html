@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Access-Control-Allow-Origin" content="*">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="../../../dist/css/layui.css"  media="all">
+  <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+
+<div class="demoTable">
+  <select id="orderType" class="layui-input" style="width: 200px;float: left;">
+    <option value="">请选择订单类型</option>
+    <option value="1">自选订单</option>
+    <option value="2">修图订单</option>
+  </select>
+  <button class="layui-btn" data-type="reload">查询</button>
+</div>
+
+<table class="layui-hide" id="test" lay-filter="test"></table>
+
+ 
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="edit">保存</a>
+</script>
+              
+          
+<script src="../../../dist/layui.js" charset="utf-8"></script>
+  
+<script>
+
+var url = 'http://localhost:8000/sysin'
+var str = orderType==1?'/adminCustomOrder/viewDiyOrder?status=1':'/adminPsOrder/viewPsMsg?status=1'
+layui.use('table', function(){
+  var table = layui.table;
+  table.render({
+    elem: '#test'
+    ,url: url+str
+    // ,contentType: 'application/json'
+    ,method: 'get'
+    ,id: 'testReload'
+    ,parseData: function(res){ //res 即为原始返回的数据
+    return {
+      "code": res.code, //解析接口状态
+      "msg": res.msg, //解析提示文本
+      "count": res.data.total, //解析数据长度
+      "data": res.data.list //解析数据列表
+    };
+  }
+	    // 用于对分页请求的参数：page、limit重新设定名称
+    ,request: {
+			  pageName: 'pageNum' //页码的参数名称，默认：page
+			   ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+			 }
+
+    ,title: '用户数据表'
+    ,cols: [[
+        
+    ]]
+    ,done:function () {
+        console.log($("#orderType option:selected").val())
+        if ($("#orderType option:selected").val()!=1){
+            this.cols = [[
+                {type: 'checkbox', fixed: 'left'}
+                ,{field:'orderId', title:'订单号', width:90, fixed: 'left', unresize: true, sort: true}
+                ,{field:'userId', title:'用户id', width:90}
+                ,{field:'orderTime', title:'订单日期', width:105, sort: true}
+                ,{field:'appointmentTime', title:'预约时间', width:105, sort: true}
+                ,{field:'descriptionType', title:'需求拍摄类型', width:120}
+                ,{field:'takeNum', title:'拍摄张数', width:90}
+                ,{field:'truingNum', title:'精修张数', width:90}
+                ,{field:'takeType', title:'拍摄款式', width:90}
+                ,{field:'dressNum', title:'服装数', width:90}
+                ,{field:'dressId', title:'服装ID', width:90}
+                ,{field:'albumNum', title:'需求相册数量', width:120}
+                ,{field:'albumId', title:'相册id', width:90}
+                ,{field:'frameNum', title:'需求相框数量', width:100}
+                ,{field:'frameId', title:'相框id', width:90}
+                ,{field:'price', title:'订单价格', edit: 'text', width:90}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+             ]]; //将cols初始化，否则表格重载时无法正确重新渲染表头
+        }else{
+            this.cols = [[
+                {type: 'checkbox', fixed: 'left'}
+                ,{field:'psOrderId', title:'修图单号', width:120, fixed: 'left', unresize: true, sort: true}
+                ,{field:'photoId', title:'图片id', width:100}
+                ,{field:'userId', title:'用户Id', width:110}
+                ,{field:'psMsg', title:'修图信息', width:100}
+                ,{field:'psOrderTime', title:'修图时间', width:120, sort: true}
+                ,{field:'price', title:'修图价格', edit: 'text', width:100}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+            ]];
+        }
+    }
+    ,page: true
+  });
+
+  //监听行工具事件
+  table.on('tool(test)', function(obj){
+    var data = obj.data;
+    localStorage.setItem("psOrderCreate",parseInt(localStorage.getItem("psOrderCreate"))-1);
+    if(parseInt(localStorage.getItem("psOrderCreate"))==0){
+      localStorage.removeItem("psOrderCreate");
+    }
+    str = $("#orderType option:selected").val()==1?'/adminCustomOrder/updateOrderPrice':'/adminPsOrder/updatePsOrderPrice'
+    if(obj.event === 'edit'){
+      
+      layer.confirm('保存成功', function(index){
+      $.ajax({
+          type: "get",
+          url: url+str,
+          data:{orderId:data.orderId,psOrderId:data.psOrderId,money:data.price},
+        //   contentType: "application/json;charset=utf-8",
+          dataType:"json",
+        success: function(){
+          layer.close(index);
+        }
+      });
+    });
+    }
+  });
+
+  var $ = layui.$, active = {
+    reload: function(){
+      str = $("#orderType option:selected").val()==1?'/adminCustomOrder/viewDiyOrder':'/adminPsOrder/viewPsMsg'
+      table.reload('testReload', {
+        url: url+str
+        ,methods:"get"
+        ,request: {
+        pageName: 'pageNum' //页码的参数名称，默认：page
+        ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+        }
+        ,where: {
+          status:1
+        }
+        ,page: {
+        curr: 1
+        }
+      });
+    }
+  };
+  
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+});
+</script>
+
+</body>
+</html>
