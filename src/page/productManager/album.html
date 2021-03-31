@@ -88,9 +88,9 @@ layui.use('table', function(){
     ,title: '用户数据表'
     ,cols: [[
       {field:'albumId', title:'相册编号', width:110, fixed: 'left', unresize: true, sort: true}
-      ,{field:'albumType', title:'相册类型', width:90, edit: 'text'}
-      ,{field:'albumNum', title:'相册库存', width:90, edit: 'text'}
-      ,{field:'price', title:'价格/元', width:110, edit: 'text', sort: true}
+      ,{field:'albumType', title:'相册类型', minWidth:90, edit: 'text'}
+      ,{field:'albumNum', title:'相册库存', minWidth:90, edit: 'text'}
+      ,{field:'price', title:'价格/元', minWidth:110, edit: 'text', sort: true}
       ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
     ]]
     ,page: true

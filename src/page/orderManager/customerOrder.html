@@ -6,14 +6,14 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="Access-Control-Allow-Origin" content="*">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="minWidth=device-minWidth, initial-scale=1, maximum-scale=1">
   <link rel="stylesheet" href="../../../dist/css/layui.css"  media="all">
   <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 
 <div class="demoTable">
-  <select id="status" class="layui-input" style="width: 200px;float: left;">
+  <select id="status" class="layui-input" style="minWidth: 200px;float: left;">
     <option value="">请选择订单状态</option>
     <option value="1">未确认价格</option>
     <option value="2">未完成支付</option>
@@ -61,24 +61,24 @@ layui.use('table', function(){
     ,cols: [[
       {type: 'checkbox', fixed: 'left'}
       ,{field:'orderId', title:'订单号', width:90, fixed: 'left', unresize: true, sort: true}
-      ,{field:'userId', title:'用户id', width:90}
-      ,{field:'orderTime', title:'订单日期', width:105, sort: true}
-      ,{field:'price', title:'订单价格', width:90}
-      ,{field:'hasPay', title:'是否支付', width:90}
-      ,{field:'payforTime', title:'支付时间', width:90}
-      ,{field:'appointmentTime', title:'预约时间', width:105, sort: true}
-      ,{field:'descriptionType', title:'需求拍摄类型', width:120}
-      ,{field:'takeNum', title:'拍摄张数', width:90}
-      ,{field:'truingNum', title:'精修张数', width:90}
-      ,{field:'takeType', title:'拍摄款式', width:90}
-      ,{field:'dressNum', title:'服装数', width:90}
-      ,{field:'dressId', title:'服装ID', width:90}
-      ,{field:'albumNum', title:'需求相册数量', width:120}
-      ,{field:'albumId', title:'相册id', width:90}
-      ,{field:'frameNum', title:'需求相框数量', width:100}
-      ,{field:'frameId', title:'相框id', width:90}
-      ,{field:'packId', title:'套餐Id', width:90}
-      ,{field:'finishOrder', title:'完成确认', width:90}
+      ,{field:'userId', title:'用户id', minWidth:90}
+      ,{field:'orderTime', title:'订单日期', minWidth:105, sort: true}
+      ,{field:'price', title:'订单价格', minWidth:90}
+      ,{field:'hasPay', title:'是否支付', minWidth:90}
+      ,{field:'payforTime', title:'支付时间', minWidth:90}
+      ,{field:'appointmentTime', title:'预约时间', minWidth:105, sort: true}
+      ,{field:'descriptionType', title:'需求拍摄类型', minWidth:120}
+      ,{field:'takeNum', title:'拍摄张数', minWidth:90}
+      ,{field:'truingNum', title:'精修张数', minWidth:90}
+      ,{field:'takeType', title:'拍摄款式', minWidth:90}
+      ,{field:'dressNum', title:'服装数', minWidth:90}
+      ,{field:'dressId', title:'服装ID', minWidth:90}
+      ,{field:'albumNum', title:'需求相册数量', minWidth:120}
+      ,{field:'albumId', title:'相册id', minWidth:90}
+      ,{field:'frameNum', title:'需求相框数量', minWidth:100}
+      ,{field:'frameId', title:'相框id', minWidth:90}
+      ,{field:'packId', title:'套餐Id', minWidth:90}
+      ,{field:'finishOrder', title:'完成确认', minWidth:90}
       ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
     ]]
     ,page: true
