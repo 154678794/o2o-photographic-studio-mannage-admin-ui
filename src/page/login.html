@@ -112,6 +112,20 @@
 		<script type="text/javascript" src="../login/assembly/zylVerificationCode/zylVerificationCode.js"></script>
 		<script>
 			var url = 'http://localhost:8000/sysin';
+			$.ajax({
+				type: "get",
+				url: url+"/user/cookieValid",
+				xhrFields: {
+					withCredentials: true
+				},
+				success: function(result){
+					if (result.data==true){
+						window.location.href = "http://localhost:8001/src/page/admin.html";
+					}
+				}
+			});
+		</script>
+		<script>
 			layui.use(['carousel', 'form'], function(){
 				var carousel = layui.carousel
 				,form = layui.form;
@@ -149,13 +163,16 @@
 						},
 						success: function(result){
 							if (result.data==true){
-								// $.ajax({
-								// 	type: "post",
-								// 	url: url+"/user/setJSessionId",
-								// 	data:JSON.stringify(data.field),
-								// 	contentType: "application/json;charset=utf-8",
-								// 	dataType:"json"
-								// });
+								$.ajax({
+									type: "post",
+									url: url+"/user/setJSessionId",
+									data:JSON.stringify(data.field),
+									contentType: "application/json;charset=utf-8",
+									dataType:"json",
+									xhrFields: {
+										withCredentials: true
+									}
+								});
 								window.location.href = "http://localhost:8001/src/page/admin.html";
 							}
 						}
