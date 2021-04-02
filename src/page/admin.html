@@ -5,7 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>o2o摄影系统后台</title>
 <link rel="stylesheet" href="../../dist/css/layui.css"  media="all">
-<script src="http://libs.baidu.com/jquery/2.0.1/jquery.min.js"></script>
+<script src="../login/js/jquery.min.js"></script>
+<script>
+  $.ajaxSetup({
+  xhrFields: {
+      withCredentials: true
+  },
+  // 请求发送前
+  beforeSend: function () {
+      // 发送请求前，能够对data、url等处理
+  },
+  // 请求返回
+  complete: function () {
+      // 返回数据，根据数据调转页面等
+  }
+});
+</script>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
