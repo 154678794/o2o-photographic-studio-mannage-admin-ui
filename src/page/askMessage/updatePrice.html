@@ -118,9 +118,7 @@ layui.use('table', function(){
   table.on('tool(test)', function(obj){
     var data = obj.data;
     localStorage.setItem("psOrderCreate",parseInt(localStorage.getItem("psOrderCreate"))-1);
-    if(parseInt(localStorage.getItem("psOrderCreate"))==0){
-      localStorage.removeItem("psOrderCreate");
-    }
+    
     str = $("#orderType option:selected").val()==1?'/adminCustomOrder/updateOrderPrice':'/adminPsOrder/updatePsOrderPrice'
     if(obj.event === 'edit'){
       

@@ -107,21 +107,28 @@
 <script>
   // 初始化创建修图订单的消息次数
   var updatePrice = document.getElementById('updatePrice');
-  updatePrice.innerHTML = localStorage.getItem("psOrderCreate");
-  if(updatePrice.innerHTML==""||updatePrice.innerHTML==null){
+  if(parseInt(localStorage.getItem("psOrderCreate"))==0){
+    localStorage.removeItem("psOrderCreate");
+  }
+  if(localStorage.getItem("psOrderCreate")==null){
+    updatePrice.innerHTML = "";
     updatePrice.className = "";
   }else{
+    updatePrice.innerHTML = localStorage.getItem("psOrderCreate");
     updatePrice.className = "layui-badge";
   }
 
   //刷新所有元素
   // $("#iframeLoad").load(function(){	// iframe页面变化时触发
   $("dd").click(function(){
-    
-    updatePrice.innerHTML = localStorage.getItem("psOrderCreate");
-    if(updatePrice.innerHTML==""||updatePrice.innerHTML==null){
+    if(parseInt(localStorage.getItem("psOrderCreate"))==0){
+      localStorage.removeItem("psOrderCreate");
+    }
+    if(localStorage.getItem("psOrderCreate")==null){
+      updatePrice.innerHTML = "";
       updatePrice.className = "";
     }else{
+      updatePrice.innerHTML = localStorage.getItem("psOrderCreate");
       updatePrice.className = "layui-badge";
     }
   });
@@ -167,7 +174,7 @@ layui.use('element', function(){
       case '1'://修图订单建立
         
         // localStorage.getItem("psOrerCreate");//获取名称为“key”的值
-        if(localStorage.getItem("psOrderCreate")==null||localStorage.getItem("psOrderCreate")==""){
+        if(localStorage.getItem("psOrderCreate")==null){
           localStorage.setItem("psOrderCreate",1);//以“key”为名称存储一个值“value”
         }else{
           localStorage.setItem("psOrderCreate",parseInt(localStorage.getItem("psOrderCreate"))+1);
