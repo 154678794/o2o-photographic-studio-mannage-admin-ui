@@ -115,12 +115,12 @@
 			{
 				localStorage.setItem("url",data.nowUrl);
 			});
-			url = localStorage.getItem("url");
+			var url = localStorage.getItem("url");
 		  </script>
 		<script>
 			$.ajax({
 				type: "get",
-				url: url+"/user/cookieValid",
+				url: "http://182.61.52.221:8000/sysin/user/cookieValid",
 				xhrFields: {
 					withCredentials: true
 				},
@@ -160,7 +160,7 @@
 				form.on('submit(demo1)', function(data){
 					$.ajax({
 						type: "post",
-						url: url+"/user/userLogin",
+						url: "http://182.61.52.221:8000/sysin/user/userLogin",
 						data:JSON.stringify(data.field),
 						contentType: "application/json;charset=utf-8",
 						dataType:"json",
@@ -179,7 +179,7 @@
 										withCredentials: true
 									}
 								});
-								window.location.href = "http://localhost:8001/src/page/admin.html";
+								window.location.href = "/src/page/admin.html";
 							}
 						}
 					});
