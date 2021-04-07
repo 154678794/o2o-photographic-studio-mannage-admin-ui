@@ -47,8 +47,7 @@
 <script src="../../../dist/layui.js" charset="utf-8"></script>
   
 <script>
-
-var url = 'http://localhost:8000/sysin';
+url = localStorage.getItem("url");
 var str = orderType==1?'/adminCustomOrder/viewDiyOrder?status=1':'/adminPsOrder/viewPsMsg?status=1';
 layui.use('table', function(){
   var table = layui.table;

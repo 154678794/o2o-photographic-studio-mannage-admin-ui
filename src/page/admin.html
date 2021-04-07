@@ -105,7 +105,7 @@
 <script src="../../dist/layui.js" charset="utf-8"></script>
 
 <script>
-  var url = 'http://localhost:8000/sysin';
+  url = localStorage.getItem("url");
   // 初始化创建修图订单的消息次数
   var updatePrice = document.getElementById('updatePrice');
   if(parseInt(localStorage.getItem("psOrderCreate"))==0){
@@ -143,7 +143,7 @@
       },
       success: function(result){
         if (result.data==false){
-          window.location.href = "http://localhost:8001/src/page/login.html";
+          window.location.href = "/src/page/login.html";
         }
       }
     });

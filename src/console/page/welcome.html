@@ -33,6 +33,22 @@
         .layuimini-notice-title {line-height:28px;font-size:14px;}
         .layuimini-notice-extra {position:absolute;top:50%;margin-top:-8px;right:16px;display:inline-block;height:16px;color:#999;}
     </style>
+    <script src="../../login/js/jquery.min.js"></script>
+    <script>
+        $.ajaxSetup({
+        xhrFields: {
+            withCredentials: true
+        },
+        // 请求发送前
+        beforeSend: function () {
+            // 发送请求前，能够对data、url等处理
+        },
+        // 请求返回
+        complete: function () {
+            // 返回数据，根据数据调转页面等
+        }
+      });
+      </script>
 </head>
 <body>
 <div class="layuimini-container">
@@ -54,7 +70,7 @@
                                                         <h5>用户统计</h5>
                                                     </div>
                                                     <div class="panel-content">
-                                                        <h1 class="no-margins">1234</h1>
+                                                        <h1 id="userCount" class="no-margins"></h1>
                                                         <small>当前分类总记录数</small>
                                                     </div>
                                                 </div>
@@ -68,7 +84,7 @@
                                                         <h5>商品统计</h5>
                                                     </div>
                                                     <div class="panel-content">
-                                                        <h1 class="no-margins">1234</h1>
+                                                        <h1 id="goodsCount" class="no-margins">1234</h1>
                                                         <small>当前分类总记录数</small>
                                                     </div>
                                                 </div>
@@ -82,7 +98,7 @@
                                                         <h5>浏览统计</h5>
                                                     </div>
                                                     <div class="panel-content">
-                                                        <h1 class="no-margins">1234</h1>
+                                                        <h1 id="lookCount" class="no-margins">1234</h1>
                                                         <small>当前分类总记录数</small>
                                                     </div>
                                                 </div>
@@ -96,7 +112,7 @@
                                                         <h5>订单统计</h5>
                                                     </div>
                                                     <div class="panel-content">
-                                                        <h1 class="no-margins">1234</h1>
+                                                        <h1 id="orderCount" class="no-margins">1234</h1>
                                                         <small>当前分类总记录数</small>
                                                     </div>
                                                 </div>
@@ -345,6 +361,39 @@
 </div>
 <script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<script>
+    url = localStorage.getItem("url");
+    $.ajax({
+        type: "get",
+        url: url+"/consoles/getUserCount",
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function(result){
+            document.getElementById('userCount').innerHTML = result.data;
+        }
+    });
+    $.ajax({
+        type: "get",
+        url: url+"/consoles/getGoodsCount",
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function(result){
+            document.getElementById('goodsCount').innerHTML = result.data;
+        }
+    });
+    $.ajax({
+        type: "get",
+        url: url+"/consoles/getOrderCount",
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function(result){
+            document.getElementById('orderCount').innerHTML = result.data;
+        }
+    });
+</script>
 <script>
     layui.use(['layer', 'miniTab','echarts'], function () {
         var $ = layui.jquery,

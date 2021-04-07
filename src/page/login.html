@@ -111,7 +111,13 @@
 		<!-- ZylVerificationCode Js-->
 		<script type="text/javascript" src="../login/assembly/zylVerificationCode/zylVerificationCode.js"></script>
 		<script>
-			var url = 'http://localhost:8000/sysin';
+			$.getJSON ("/url.json", function (data)
+			{
+				localStorage.setItem("url",data.nowUrl);
+			});
+			url = localStorage.getItem("url");
+		  </script>
+		<script>
 			$.ajax({
 				type: "get",
 				url: url+"/user/cookieValid",
@@ -120,7 +126,7 @@
 				},
 				success: function(result){
 					if (result.data==true){
-						window.location.href = "http://localhost:8001/src/page/admin.html";
+						window.location.href = "/src/page/admin.html";
 					}
 				}
 			});
