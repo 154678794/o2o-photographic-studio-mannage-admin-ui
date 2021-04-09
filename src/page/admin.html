@@ -70,7 +70,7 @@
           <a href="javascript:;">消息通知</a>
           <dl class="layui-nav-child">
             <dd><a href="askMessage/updatePrice.html" target="packetOrder">更新价格<span id="updatePrice"></span></a></dd>
-            <dd><a href="javascript:;">发送照片</a></dd>
+            <dd><a href="askMessage/sendPhoto.html" target="packetOrder">发送照片</a></dd>
             <dd><a href="askMessage/orderCheck.html" target="packetOrder">确认订单</a></dd>
           </dl>
         </li>
@@ -154,7 +154,7 @@ layui.use('element', function(){
   var websocket = null;
   //判断当前浏览器是否支持WebSocket
   if ('WebSocket' in window) {
-      websocket = new WebSocket("ws://localhost:8000/sysin//oneWebsocket/1");
+      websocket = new WebSocket("ws://182.61.52.221:8000/sysin//oneWebsocket/1");
   }
   else {
       alert('当前浏览器 Not support websocket')
