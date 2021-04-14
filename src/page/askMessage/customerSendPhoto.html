@@ -28,16 +28,19 @@
 <body>
  
 <table class="layui-hide" id="test" lay-filter="test"></table>
-     
-<blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+
+<input type="file" id="photoFile" style="display: none;" onchange="upload()">
+
+<!-- <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
     预览图：
-    <div class="layui-upload-list" id="demo2"></div>
- </blockquote>
+    <img id="preview_photo" src="" width="200px" height="200px">
+    <div class="layui-upload-list" id="demo2"></div> 
+ </blockquote> -->
 
 <script src="../../../dist/layui.js" charset="utf-8"></script>
  
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="uploadPhoto" name="uploads">上传图片</a>
+    <a class="layui-btn layui-btn-xs" lay-event="uploadPhoto">上传图片</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="downloadPhoto">下载图片</a>
 </script>
 
@@ -81,36 +84,41 @@ layui.use(['table','upload'], function(){
       ,{fixed: 'right', title:'操作', toolbar: '#barDemo', minWidth:200}
     ]]
     ,page: true
-    ,done: function(res){
-        for(i = 0;i<res.count;i++){
-            $('a[name="uploads"]').eq(i)[0].id = "upload_"+i;
-        }
-    }
+    // ,done: function(res){
+    //     for(i = 0;i<res.count;i++){
+    //         $('a[name="uploads"]').eq(i)[0].id = "upload_"+i;
+    //     }
+    // }
   });
   
+
+   
   //监听行工具事件
   table.on('tool(test)', function(obj){
     var data = obj.data;
-    var uploadId = obj.tr.selector.split('.layui-table-body tr[data-index="')[1].split('"]')[0];
+    // var uploadId = obj.tr.selector.split('.layui-table-body tr[data-index="')[1].split('"]')[0];
     if(obj.event === 'uploadPhoto'){
-        var $ = layui.jquery
-        ,upload = layui.upload;
-        //多图片上传
-        upload.render({
-            elem: "upload_"+uploadId
-            ,url: 'https://httpbin.org/post' //改成您自己的上传接口
-            ,multiple: true
-            ,before: function(obj){
-                //预读本地文件示例，不支持ie8
-                obj.preview(function(index, file, result){
-                    $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
-                });
-            }
-            ,done: function(res){
-                //上传完毕
-                alert("dsa");
-            }
-        });
+      localStorage.setItem("selectUserId",data.userId);
+      localStorage.setItem("orderId",data.orderId);
+      uploadPhoto();
+        // var $ = layui.jquery
+        // ,upload = layui.upload;
+        // //多图片上传
+        // upload.render({
+        //     elem: "#upload_"+uploadId
+        //     ,url: 'https://httpbin.org/post' //改成您自己的上传接口
+        //     ,multiple: true
+        //     ,before: function(obj){
+        //         //预读本地文件示例，不支持ie8
+        //         obj.preview(function(index, file, result){
+        //             $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
+        //         });
+        //     }
+        //     ,done: function(res){
+        //         //上传完毕
+        //         alert("dsa");
+        //     }
+        // });
     } else if(obj.event === 'downloadPhoto'){
       layer.confirm('保存成功', function(index){
       $.ajax({
@@ -128,6 +136,39 @@ layui.use(['table','upload'], function(){
   });
 
 });
+</script>
+
+<script>
+   function uploadPhoto() {
+        $("#photoFile").click();
+    }
+    /**
+     * 上传图片
+     */
+     function upload() {
+        if ($("#photoFile").val() == '') {
+            return;
+        }
+        var formData = new FormData();
+        formData.append('photo', document.getElementById('photoFile').files[0]);
+        formData.append('userId', localStorage.getItem("selectUserId"));
+        formData.append('orderType', 1);
+        formData.append('orderId', localStorage.getItem("orderId"));
+        $.ajax({
+            url:url+"/rights/uploadPhoto",
+            type:"post",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(result) {
+              console.log(result.data);
+                alert(result.data);
+            },
+            error: function() {
+                alert(上传图片失败);
+            }
+        });
+    }
 </script>
 
 </body>

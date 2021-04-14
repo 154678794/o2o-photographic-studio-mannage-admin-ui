@@ -26,9 +26,22 @@
 </head>
 <body>
  
-<table class="layui-hide" id="test"></table>
-                
-<script src="../../../dist/layui.js" charset="utf-8"></script>
+  <table class="layui-hide" id="test" lay-filter="test"></table>
+
+  <input type="file" id="photoFile" style="display: none;" onchange="upload()">
+  
+  <!-- <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+      预览图：
+      <img id="preview_photo" src="" width="200px" height="200px">
+      <div class="layui-upload-list" id="demo2"></div> 
+   </blockquote> -->
+  
+  <script src="../../../dist/layui.js" charset="utf-8"></script>
+   
+  <script type="text/html" id="barDemo">
+      <a class="layui-btn layui-btn-xs" lay-event="uploadPhoto">上传图片</a>
+      <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="downloadPhoto">下载图片</a>
+  </script>
  
 <script>
 url = localStorage.getItem("url");
@@ -63,12 +76,67 @@ layui.use('table', function(){
       ,{field:'orderTime', title:'订单日期',sort: true}
       ,{field:'appointmentTime', title:'预约时间', sort: true}
       ,{field:'packName', title:'名称', width:90, edit: 'text'}
-      ,{field:'uploadPhoto', title:'上传图片'}
-      ,{field:'downloadPhoto', title:'下载图片'}
+      ,{fixed: 'right', title:'操作', toolbar: '#barDemo', minWidth:200}
     ]]
     ,page: true
   });
+
+  table.on('tool(test)', function(obj){
+    var data = obj.data;
+    if(obj.event === 'uploadPhoto'){
+      localStorage.setItem("selectUserId",data.userId);
+      localStorage.setItem("orderId",data.orderId);
+      uploadPhoto();
+    } else if(obj.event === 'downloadPhoto'){
+      layer.confirm('保存成功', function(index){
+      $.ajax({
+          type: "post",
+          url: url+"/userManager/updateUser",
+          data:JSON.stringify(data),
+          contentType: "application/json;charset=utf-8",
+          dataType:"json",
+        success: function(){
+        layer.close(index);
+        }
+      });
+    });
+    }
+  });
+
 });
+</script>
+<script>
+   
+  function uploadPhoto() {
+       $("#photoFile").click();
+   }
+   /**
+    * 上传图片
+    */
+    function upload() {
+       if ($("#photoFile").val() == '') {
+           return;
+       }
+       var formData = new FormData();
+       formData.append('photo', document.getElementById('photoFile').files[0]);
+       formData.append('userId', localStorage.getItem("selectUserId"));
+       formData.append('orderType', 2);
+       formData.append('orderId', localStorage.getItem("orderId"));
+       $.ajax({
+           url:url+"/rights/uploadPhoto",
+           type:"post",
+           data: formData,
+           contentType: false,
+           processData: false,
+           success: function(result) {
+             console.log(result.data);
+               alert(result.data);
+           },
+           error: function() {
+               alert(上传图片失败);
+           }
+       });
+   }
 </script>
 
 </body>

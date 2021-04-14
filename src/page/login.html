@@ -94,7 +94,7 @@
 						</div>
 					</div>
 					<div class="layui-col-sm12 layui-col-md12">
-						<button class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="demo1">立即登录</button>
+						<button class="layui-btn layui-btn-fluid" type="button" lay-submit="" lay-filter="demo1">立即登录</button>
 					</div>
 				</form>
 			</div>
@@ -116,8 +116,7 @@
 				localStorage.setItem("url",data.nowUrl);
 			});
 			var url = localStorage.getItem("url");
-		  </script>
-		<script>
+		
 			$.ajax({
 				type: "get",
 				url: "http://182.61.52.221:8000/sysin/user/cookieValid",
@@ -130,8 +129,7 @@
 					}
 				}
 			});
-		</script>
-		<script>
+		
 			layui.use(['carousel', 'form'], function(){
 				var carousel = layui.carousel
 				,form = layui.form;
@@ -181,10 +179,16 @@
 								});
 								window.location.href = "/src/page/admin.html";
 							}else{
-								alert("用户名或密码错误!");
+								alert("用户名或密码错误");
+								window.location.href = "/src/page/login.html";
 							}
+						},
+						error: function(){
+							alert("用户名或密码错误");
+							window.location.href = "/src/page/login.html";
 						}
 					});
+					
 				});
 				
 				
