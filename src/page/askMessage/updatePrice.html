@@ -76,7 +76,6 @@ layui.use('table', function(){
         
     ]]
     ,done:function () {
-        console.log($("#orderType option:selected").val())
         if ($("#orderType option:selected").val()!=1){
             this.cols = [[
                 {type: 'checkbox', fixed: 'left'}

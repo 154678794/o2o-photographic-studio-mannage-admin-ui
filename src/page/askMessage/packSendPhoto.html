@@ -88,18 +88,19 @@ layui.use('table', function(){
       localStorage.setItem("orderId",data.orderId);
       uploadPhoto();
     } else if(obj.event === 'downloadPhoto'){
-      layer.confirm('保存成功', function(index){
-      $.ajax({
-          type: "post",
-          url: url+"/userManager/updateUser",
-          data:JSON.stringify(data),
-          contentType: "application/json;charset=utf-8",
+        $.ajax({
+          url:url+"/rights/downloadPhoto",
+          data:JSON.stringify({userId:data.userId,orderId:data.orderId,orderType:2}),
+          type:"post",
+          contentType:"application/json;image/png;charset=utf-8",
           dataType:"json",
-        success: function(){
-        layer.close(index);
-        }
-      });
-    });
+          xhrFields: {
+            withCredentials: true
+          },
+          success:function(){
+
+          }
+        });
     }
   });
 
