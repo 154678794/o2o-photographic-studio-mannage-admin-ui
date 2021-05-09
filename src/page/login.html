@@ -119,7 +119,7 @@
 		
 			$.ajax({
 				type: "get",
-				url: "http://localhost:8000/sysin/user/cookieValid",
+				url: "http://182.61.52.221:8000/sysin/user/cookieValid",
 				xhrFields: {
 					withCredentials: true
 				},
@@ -158,7 +158,7 @@
 				form.on('submit(demo1)', function(data){
 					$.ajax({
 						type: "post",
-						url: "http://localhost:8000/sysin/user/userLogin",
+						url: "http://182.61.52.221:8000/sysin/user/userLogin",
 						data:JSON.stringify(data.field),
 						contentType: "application/json;charset=utf-8",
 						dataType:"json",
